@@ -12,14 +12,14 @@ class App extends Component {
     }
   }
 
-  // when you want something after the app has been mounted on the page
+  // use this when you want something after the app has been mounted on the page
   // THIS HAPPENS ONLY ONCE IN THE APP
   componentDidMount(){
     fetch('https://jsonplaceholder.typicode.com/users')
       .then(response => response.json())
       .then(users => this.setState(
-        ()=>{return {monsters: users, filteredMonsters: users}},
-        ()=>{console.log(this.state )}
+        ()=>{return {monsters: users}},
+        ()=>{console.log(this.state)}
       ))
   }
 
@@ -33,17 +33,19 @@ class App extends Component {
 
     return (
       <div className="App">
-        <input className="search-box" type="search" placeholder="search..." onChange={
-          (event)=>{
-            const searchedString = event.target.value.toLowerCase();
-            this.setState(()=>{ return {searchedString}; })
+        <input className="search-box" type="search" placeholder="search..." 
+          onChange={ (event)=>{
+              const searchedString = event.target.value.toLowerCase();
+              this.setState(()=>{ return {searchedString} })
+            }
           }
-        }
         />
 
-        {filteredMonsters.map((filteredMonster)=>{
+        /* writing javascript to iterate over array of monsters */
+        {
+          filteredMonsters.map((filteredMonster)=>{
             return (
-              <h1 key={filteredMonster.id}>{filteredMonster.name}</h1>
+              <h1 key={filteredMonster.id}> {filteredMonster.name} </h1>
             );
           })
         }
