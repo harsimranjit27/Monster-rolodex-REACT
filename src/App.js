@@ -23,32 +23,36 @@ class App extends Component {
       ))
   }
 
+  // optimizing the anonymous function inside render() as it was getting created and destroyed everytime when component was rendered
+  onSearchChange = (event)=>{
+    const searchedString = event.target.value.toLowerCase();
+    this.setState(()=>{ return {searchedString} })
+  }
+
   render(){
-    
-    const filteredMonsters = this.state.monsters.filter(
+
+    // using deconstructuring making the code more readable
+    const {monsters, searchedString} = this.state;
+    const {onSearchChange} = this;
+   
+    const filteredMonsters = monsters.filter(
       (monster)=>{
-        return monster.name.toLowerCase().includes(this.state.searchedString);
+        return monster.name.toLowerCase().includes(searchedString);
       }
-    );
+    );       
 
     return (
       <div className="App">
         <input className="search-box" type="search" placeholder="search..." 
-          onChange={ (event)=>{
-              const searchedString = event.target.value.toLowerCase();
-              this.setState(()=>{ return {searchedString} })
-            }
-          }
+          onChange = {onSearchChange}
         />
 
-        /* writing javascript to iterate over array of monsters */
-        {
-          filteredMonsters.map((filteredMonster)=>{
+        {filteredMonsters.map((filteredMonster)=>{
             return (
               <h1 key={filteredMonster.id}> {filteredMonster.name} </h1>
             );
-          })
-        }
+          })}
+        
       </div>
     );
   }
